@@ -1,5 +1,7 @@
 'use strict'
 
+const GarageDoorClass = require('./lib/GarageDoorController');
+
 let Service, Characteristic
 
 module.exports = (api) => {
@@ -21,7 +23,7 @@ class GarageDoorOpener {
 
     // Dump configuration
     this.log("Configuration: " + JSON.stringify(this.config));
-    //this.GarageDoorController = new garagedoorclass.GarageDoorController(log, this.config);
+    this.GarageDoorController = new GarageDoorClass.GarageDoorController(log, this.config);
 
     this.GarageDoorService = new Service.GarageDoorOpener(this.name);
   }
@@ -71,32 +73,15 @@ class GarageDoorOpener {
      * this is called when HomeKit wants to retrieve the current state of the characteristic as defined in our getServices() function
      * it's called each time you open the Home app or when you open control center
      */
-
-    const cds = this.api.hap.Characteristic.CurrentDoorState.CLOSED;
-
-    /* Log to the console the value whenever this function is called */
-    this.log(`calling getCurrentDoorStateCharacteristicHandler`, cds);
-
-    /*
-     * The callback function should be called to return the value
-     * The first argument in the function should be null unless and error occured
-     * The second argument in the function should be the current value of the characteristic
-     * This is just an example so we will return the value from `this.isOn` which is where we stored the value in the set handler
-     */
-    callback(null, cds);
+    this.log.debug('CurrentDoorState requested (getCurrentDoorStateCharacteristicHandler)...');
+    const state_from_controller = this.GarageDoorController.checkDoorStatus();
+    if(typeof state_from_controller != 'undefined') {
+      this.log.debug('Received state from controller... \n' + JSON.stringify(state_from_controller, null, 2));
+      callback(null, state_from_controller.state.HomeKitState);
+    } else {
+      callback('Did not receive state data from controller class');
+    }
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

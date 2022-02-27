@@ -6,11 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "rpio": "^2.2.0"
+  },
   "keywords": [
     "homebridge-plugin"
   ],
   "engines": {
-    "homebridge": ">=0.2.5"
+    "homebridge": ">=0.4.33"
+    "node": ">=6.12.2"
   },
   "author": "Peter D. Jorgensen",
   "license": "MIT"
