@@ -13,7 +13,7 @@
     "homebridge-plugin"
   ],
   "engines": {
-    "homebridge": ">=0.4.33"
+    "homebridge": ">=0.4.33",
     "node": ">=6.12.2"
   },
   "author": "Peter D. Jorgensen",
