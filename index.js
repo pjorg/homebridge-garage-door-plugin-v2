@@ -26,6 +26,18 @@ class GarageDoorOpener {
     this.GarageDoorController = new GarageDoorClass.GarageDoorController(log, this.config);
 
     this.GarageDoorService = new Service.GarageDoorOpener(this.name);
+
+    // Heartbeat to check for state changes
+    if((typeof this.config.heartbeat_interval != 'undefined') && (this.config.heartbeat_interval > 100)) {
+      this.log('Heartbeat will run every ', this.config.heartbeat_interval, 'ms to check for state transitions...');
+      setInterval(this.heartbeat, this.config.heartbeat_interval, this);
+    }
+  }
+
+  identify(callback) {
+    // This is a stub because we have no identification method right now
+    this.log('Detected a call to identify, but this is not implemented yet');
+    callback(null);
   }
 
   getServices() {
@@ -97,6 +109,22 @@ class GarageDoorOpener {
       callback(null, obstruction_state_from_controller);
     } else {
       callback('Did not receive state data from controller class');
+    }
+  }
+
+  // This runs to periodically update the state of the door, so that changes can be reported to homebridge
+  // in a timely fashion. This keeps HomeKit state current.
+  heartbeat(self) {
+    const status = self.GarageDoorController.checkDoorStatus();
+    if(typeof status == 'undefined') {
+      self.log.warn('Heartbeat did not receive door status from controller upon request');
+    } else {
+      if(status.isChanged) {
+        self.log('State change detected: ' + status.state.Status);
+        self.log.debug('Complete state object: ' + JSON.stringify(status, null, 2));
+        self.GarageDoorService.getCharacteristic(Characteristic.CurrentDoorState);
+        self.GarageDoorService.getCharacteristic(Characteristic.ObstructionDetected);
+      }
     }
   }
 }
