@@ -17,6 +17,8 @@ class GarageDoorOpener {
 
     this.name = config.name
 
+    this.targetDoorState = this.api.hap.Characteristic.TargetDoorState.CLOSED
+
     // Dump configuration
     this.log("Configuration: " + JSON.stringify(this.config));
     //this.GarageDoorController = new garagedoorclass.GarageDoorController(log, this.config);
@@ -73,7 +75,7 @@ class GarageDoorOpener {
     const cds = this.api.hap.Characteristic.CurrentDoorState.CLOSED;
 
     /* Log to the console the value whenever this function is called */
-    this.log(`calling getOnCharacteristicHandler`, cds);
+    this.log(`calling getCurrentDoorStateCharacteristicHandler`, cds);
 
     /*
      * The callback function should be called to return the value
