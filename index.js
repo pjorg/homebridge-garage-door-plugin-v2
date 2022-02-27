@@ -122,8 +122,8 @@ class GarageDoorOpener {
       if(status.isChanged) {
         self.log('State change detected: ' + status.state.Status);
         self.log.debug('Complete state object: ' + JSON.stringify(status, null, 2));
-        self.GarageDoorService.getCharacteristic(Characteristic.CurrentDoorState);
-        self.GarageDoorService.getCharacteristic(Characteristic.ObstructionDetected);
+        self.GarageDoorService.setCharacteristic(Characteristic.CurrentDoorState, status.State.HomeKitState);
+        self.GarageDoorService.setCharacteristic(Characteristic.ObstructionDetected, self.GarageDoorController.Obstruction);
       }
     }
   }
