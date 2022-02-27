@@ -97,3 +97,4 @@ class GarageDoorOpener {
       callback('Did not receive state data from controller class');
     }
   }
+}
