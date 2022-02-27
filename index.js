@@ -30,15 +30,15 @@ class GarageDoorOpener {
         .setCharacteristic(Characteristic.Model, 'GarageDoorOpenerV2')
         .setCharacteristic(Characteristic.SerialNumber, '002')
 
-    this.service.getCharacteristic(Characteristic.CurrentDoorState)
+    this.GarageDoorService.getCharacteristic(Characteristic.CurrentDoorState)
       .on('get', this.getCurrentDoorStateCharacteristicHandler.bind(this))
       .on('set', this.setCurrentDoorStateCharacteristicHandler.bind(this))
 
-    this.service.getCharacteristic(Characteristic.TargetDoorState)
+    this.GarageDoorService.getCharacteristic(Characteristic.TargetDoorState)
       .on('get', this.getTargetDoorStateCharacteristicHandler.bind(this))
       .on('set', this.setTargetDoorStateCharacteristicHandler.bind(this))
 
-    this.service.getCharacteristic(Characteristic.ObstructionDetected)
+    this.GarageDoorService.getCharacteristic(Characteristic.ObstructionDetected)
       .on('get', this.getObstructionDetectedCharacteristicHandler.bind(this))
       .on('set', this.setObstructionDetectedCharacteristicHandler.bind(this))
 
