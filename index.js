@@ -68,6 +68,8 @@ class GarageDoorOpener {
     /* this is called when HomeKit wants to update the value of the characteristic as defined in our getServices() function */
     this.log(`TargetDoorState being set (setTargetDoorStateCharacteristicHandler):`, value);
     this.targetDoorState = value;
+    this.log.debug('Set targetDoorState in Accessory; now calling operateGarageDoor on controller...')
+    this.GarageDoorController.operateGarageDoor();
     callback(null);
   }
 
